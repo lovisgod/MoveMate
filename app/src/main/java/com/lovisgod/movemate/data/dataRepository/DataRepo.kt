@@ -5,4 +5,6 @@ import com.lovisgod.movemate.data.dataSource.DataSource
 class DataRepo(val dataSource: DataSource) {
 
     fun getFreightOptions() = dataSource.getFrieghtsOption()
+
+    fun getShipments() = dataSource.getShipments()
 }
