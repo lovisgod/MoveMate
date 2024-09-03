@@ -34,6 +34,7 @@ import com.example.bottombar.model.IndicatorStyle
 import com.example.bottombar.model.VisibleItem
 import com.lovisgod.movemate.ui.NavigationItem
 import com.lovisgod.movemate.ui.routeDefinition.mainScreens
+import com.lovisgod.movemate.ui.screens.ShipmentPageWithAppBar
 import com.lovisgod.movemate.ui.screens.landingPageWithAppBar
 import com.lovisgod.movemate.ui.theme.LightGrey
 import com.lovisgod.movemate.ui.theme.MoveMateTheme
@@ -114,13 +115,13 @@ class MainActivity : ComponentActivity() {
                                     )
                                 }
                                 composable(NavigationItem.Calculate.route) {
-                                    landingPageWithAppBar(
+                                    ShipmentPageWithAppBar(
                                         navController = navController,
                                         context = LocalContext.current
                                     )
                                 }
                                 composable(NavigationItem.Shipment.route) {
-                                    landingPageWithAppBar(
+                                    ShipmentPageWithAppBar(
                                         navController = navController,
                                         context = LocalContext.current
                                     )
