@@ -37,7 +37,9 @@ import com.lovisgod.movemate.ui.theme.LightPurple
 import com.lovisgod.movemate.ui.theme.WhiteText
 
 @Composable
-fun ShipmentCard(item: ShipmentItem) {
+fun ShipmentCard(
+    item: ShipmentItem
+) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
