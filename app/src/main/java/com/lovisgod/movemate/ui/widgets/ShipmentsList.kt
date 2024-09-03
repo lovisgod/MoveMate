@@ -18,9 +18,8 @@ fun ShipmentsList(shipments: List<ShipmentItem>) {
         modifier = Modifier.animateContentSize()
     ) {
         items(shipments) { item ->
-            Box(modifier = Modifier.animateItemPlacement()) {
-                ShipmentCard(item = item)
-            }
+            ShipmentCard(item = item)
+
         }
     }
 }
