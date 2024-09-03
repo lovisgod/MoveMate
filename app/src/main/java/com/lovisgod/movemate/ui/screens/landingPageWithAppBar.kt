@@ -69,7 +69,7 @@ import com.lovisgod.movemate.viewmodel.MoveMateViewModel
 @Composable
 fun landingPageWithAppBar(
     navController: NavController?,
-//    viewModel: MoveMateViewModel = hiltViewModel(),
+    viewModel: MoveMateViewModel = hiltViewModel(),
     context: Context?,
 ) {
     Scaffold(
@@ -143,7 +143,7 @@ fun landingPageWithAppBar(
             landingPage(
                 navController = navController,
                 context = context,
-//                viewModel = viewModel,
+                viewModel = viewModel,
                 modifier = Modifier
                     .padding(it)
                     .background(color = Color.White)
@@ -161,10 +161,10 @@ fun landingPage(
 ) {
 
     LaunchedEffect(key1 = "getFreightOptions") {
-//        viewModel?.getFreightOptions()
+        viewModel?.getFreightOptions()
     }
 
-//    val freightOption = viewModel?.freightOptionsState?.collectAsState()
+    val freightOption = viewModel?.freightOptionsState?.collectAsState()
 
     Column(
         modifier = modifier
@@ -228,9 +228,10 @@ fun landingPage(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-//        FreightOptionsList(freightOptions = freightOption?.value ?: listOf(FreightOption()) )
-        FreightOptionsList(freightOptions = listOf(
-            FreightOption(), FreightOption(), FreightOption()) )
+        FreightOptionsList(freightOptions = freightOption?.value ?: listOf(FreightOption()) )
+
+//        FreightOptionsList(freightOptions = listOf(
+//            FreightOption(), FreightOption(), FreightOption()) )
 
     }
 
