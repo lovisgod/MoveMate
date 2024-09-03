@@ -18,12 +18,14 @@ import androidx.core.view.WindowCompat
 private val DarkColorScheme = darkColorScheme(
     primary = PurpleBackground,
     secondary = DarkPurple,
-    tertiary = LightPurple,
-    background = DarkGrey,
-    surface = DarkGrey,
+    tertiary = WhiteText,
+    tertiaryContainer = WhiteText,
+    onTertiaryContainer = DarkGrey,
+    background = WhiteText,
+    surface = WhiteText,
     onPrimary = WhiteText,
     onSecondary = WhiteText,
-    onTertiary = WhiteText,
+    onTertiary = DarkGrey,
     onBackground = WhiteText,
     onSurface = WhiteText
 )
@@ -31,14 +33,16 @@ private val DarkColorScheme = darkColorScheme(
 private val LightColorScheme = lightColorScheme(
     primary = PurpleBackground,
     secondary = LightPurple,
-    tertiary = DarkPurple,
-    background = LightGrey,
-    surface = LightGrey,
+    tertiary = WhiteText,
+    tertiaryContainer = WhiteText,
+    onTertiaryContainer = DarkGrey,
+    background = WhiteText,
+    surface = WhiteText,
     onPrimary = WhiteText,
     onSecondary = WhiteText,
-    onTertiary = WhiteText,
-    onBackground = DarkGrey,
-    onSurface = DarkGrey
+    onTertiary = DarkGrey,
+    onBackground = WhiteText,
+    onSurface = DarkPurple
 )
 
 
@@ -74,7 +78,7 @@ fun MoveMateTheme(
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            if (darkTheme) DarkColorScheme else LightColorScheme
         }
 
         darkTheme -> DarkColorScheme
@@ -82,9 +86,10 @@ fun MoveMateTheme(
     }
     val view = LocalView.current
     if (!view.isInEditMode) {
+        println("this is true")
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
+            window.statusBarColor = PurpleBackground.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
