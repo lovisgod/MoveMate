@@ -77,20 +77,20 @@ fun ShipmentPageWithAppBar(
         topBar = {
             TopAppBar(
                 navigationIcon = {
-//                    IconButton(
-//                        onClick = {
-//                            navController?.popBackStack()
-//                        },
-//                        modifier = Modifier
-//                            .size(35.dp)
-//                    ) {
-//                        Icon(
-//                            imageVector = Icons.Outlined.KeyboardArrowLeft,
-//                            contentDescription = "Navigating Icon",
-//                            tint = Color.White,
-//                            modifier = Modifier.size(35.dp)
-//                        )
-//                    }
+                    IconButton(
+                        onClick = {
+                            navController?.popBackStack()
+                        },
+                        modifier = Modifier
+                            .size(35.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.KeyboardArrowLeft,
+                            contentDescription = "Navigating Icon",
+                            tint = Color.White,
+                            modifier = Modifier.size(35.dp)
+                        )
+                    }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = PurpleBackground,

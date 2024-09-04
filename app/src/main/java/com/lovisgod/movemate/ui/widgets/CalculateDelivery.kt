@@ -2,6 +2,8 @@ package com.lovisgod.movemate.ui.widgets
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.runtime.Composable
@@ -52,26 +54,64 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import com.lovisgod.movemate.R
 import com.lovisgod.movemate.data.model.ShipmentItem
 import com.lovisgod.movemate.data.model.ShipmentStatus
+import com.lovisgod.movemate.ui.NavigationItem
 import com.lovisgod.movemate.ui.icons.Archive
 import com.lovisgod.movemate.ui.icons.Experiment
 import com.lovisgod.movemate.ui.icons.History
+import com.lovisgod.movemate.ui.icons.Package_2
+import com.lovisgod.movemate.ui.routeDefinition.mainScreens
 import com.lovisgod.movemate.ui.theme.DarkGrey
 import com.lovisgod.movemate.ui.theme.LightPurple
 import com.lovisgod.movemate.ui.theme.WhiteText
 import com.lovisgod.movemate.ui.theme.orangeColor
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 @Composable
-fun ShippingCalculatorScreen(modifier: Modifier) {
+fun ShippingCalculatorScreen(modifier: Modifier, navController: NavController? = null) {
+    var isPressed by remember { mutableStateOf(false) }
+
+    // Animatable for scale animation
+    val scaleButton = remember { Animatable(1f) }
+
+    val targetScale = 1.1f
+
+    // Start animation when button is pressed
+    LaunchedEffect(isPressed) {
+        if (isPressed) {
+            // Animate the scale
+            scaleButton.animateTo(
+                targetValue = 0.9f,
+                animationSpec = tween(durationMillis = 300)
+            )
+
+            // Reset scale to 1
+            scaleButton.animateTo(
+                targetValue = 1f,
+                animationSpec = tween(durationMillis = 300)
+            )
+
+            // Perform navigation after animation
+            navController?.navigate(mainScreens.summaryScreen.route)
+
+            // Reset isPressed to false
+            isPressed = false
+        }
+    }
     Column(
         modifier = Modifier
             .background(color = WhiteText)
@@ -91,13 +131,16 @@ fun ShippingCalculatorScreen(modifier: Modifier) {
         PackagingSection()
 
         CategoriesSection()
-        Button(onClick = {  },
+        Button(onClick = {
+           isPressed = true
+        },
             colors = ButtonDefaults.buttonColors(
                 containerColor = orangeColor,
                 contentColor = WhiteText
             ),
             modifier = Modifier
                 .fillMaxWidth()
+                .scale(scale = scaleButton.value)
                 .background(
                     shape = RoundedCornerShape(30.dp),
                     color = orangeColor
@@ -105,12 +148,23 @@ fun ShippingCalculatorScreen(modifier: Modifier) {
             Text(text = "Continue")
         }
     }
+
+//    if (isPressed) {
+//        LaunchedEffect(Unit) {
+//            delay(100) // Adjust the delay duration as needed
+//            isPressed = false
+//        }
+//    }
 }
 
 
 
 @Composable
 fun DestinationSection() {
+    var senderText by remember { mutableStateOf("") }
+    var receiverText by remember { mutableStateOf("") }
+    var weightText by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier.padding(bottom = 16.dp)
     ) {
@@ -118,11 +172,14 @@ fun DestinationSection() {
         GenericInputWithStyledDividerField(
             header = "Sample header",
             footer = "",
+            text = senderText.uppercase(),
             inputWidth = 288.dp,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email, capitalization = KeyboardCapitalization.Characters),
             hint = "Sender Location",
             leftIcon = Archive,
-            onInputValueChange = {},
+            onInputValueChange = {
+               senderText = it.uppercase()
+            },
             )
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -131,11 +188,14 @@ fun DestinationSection() {
         GenericInputWithStyledDividerField(
             header = "Sample header",
             footer = "",
+            text = receiverText.uppercase(),
             inputWidth = 288.dp,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             hint = "Receiver Location",
             leftIcon = Archive,
-            onInputValueChange = {},
+            onInputValueChange = {
+               receiverText = it.uppercase()
+            },
 
             )
 
@@ -144,12 +204,14 @@ fun DestinationSection() {
         GenericInputWithStyledDividerField(
             header = "Sample header",
             footer = "",
+            text = weightText.uppercase(),
             inputWidth = 288.dp,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             hint = "Approx Weight",
             leftIcon = Experiment,
-            onInputValueChange = {},
-
+            onInputValueChange = {
+                weightText = it.uppercase()
+            },
             )
     }
 }
@@ -182,7 +244,7 @@ fun PackagingSection() {
             hint = "Box",
             hintColor = Color.Black,
             enable = false,
-            leftIcon = Icons.Default.Search,
+            leftIcon = Package_2,
             rightIcon = Icons.Outlined.KeyboardArrowDown,
             onInputValueChange = {},
 

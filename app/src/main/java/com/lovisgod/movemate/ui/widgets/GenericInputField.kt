@@ -70,7 +70,7 @@ fun GenericInputField(
     readOnly: Boolean = false,
     modifier: Modifier = Modifier
 ) {
-//    var text by remember { mutableStateOf(TextFieldValue("")) }
+    var textState by remember { mutableStateOf(TextFieldValue(text)) }
     var visualTransformation by remember { mutableStateOf(VisualTransformation.None) }
     return Column(
         modifier = modifier
@@ -83,13 +83,14 @@ fun GenericInputField(
             // Child views.
        BasicTextField (
         modifier = Modifier.fillMaxWidth(),
-        value = TextFieldValue(text),
+        value = textState,
         readOnly = readOnly,
         enabled = enable,
         keyboardActions = keyboardActions,
         keyboardOptions = keyboardOptions,
         onValueChange = { it: TextFieldValue ->
-            onInputValueChange(it.text)
+            textState = it
+            onInputValueChange(it.text.uppercase())
         },
         visualTransformation = visualTransformation,
         decorationBox = { innerTextField ->
@@ -161,7 +162,9 @@ fun GenericInputField(
                            )
                        }
                    }
-                   innerTextField()
+                   Box(modifier = Modifier.padding(start = 35.dp, end = 30.dp).align(Alignment.CenterStart)) {
+                       innerTextField()
+                   }
                }
            }
       )

@@ -40,6 +40,7 @@ import com.example.bottombar.AnimatedBottomBar
 import com.example.bottombar.components.BottomBarItem
 import com.example.bottombar.model.IndicatorStyle
 import com.example.bottombar.model.VisibleItem
+import com.lovisgod.movemate.data.dataRepository.getNavigationItemByRoute
 import com.lovisgod.movemate.ui.NavigationItem
 import com.lovisgod.movemate.ui.routeDefinition.mainScreens
 import com.lovisgod.movemate.ui.screens.CalculatePageWithAppBar
@@ -48,6 +49,7 @@ import com.lovisgod.movemate.ui.screens.landingPageWithAppBar
 import com.lovisgod.movemate.ui.theme.LightGrey
 import com.lovisgod.movemate.ui.theme.MoveMateTheme
 import com.lovisgod.movemate.ui.theme.PurpleBackground
+import com.lovisgod.movemate.ui.widgets.EstimateScreen
 import com.lovisgod.movemate.ui.widgets.TopSection
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -69,42 +71,48 @@ class MainActivity : ComponentActivity() {
                     // A surface container using the 'background' color from the theme
                     Scaffold(
                         bottomBar = {
-                            AnimatedBottomBar(
-                                modifier = Modifier.shadow(elevation = 5.dp),
-                                bottomBarHeight = 70.dp,
-                                selectedItem = selectedItem,
-                                itemSize = navigationItems.take(4).size,
-                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                indicatorStyle = IndicatorStyle.LINE,
-                                indicatorColor = PurpleBackground
-                            ) {
-                                navigationItems.take(4).forEachIndexed { index, navigationItem ->
-                                    val selected = currentRoute == navigationItem.route
-                                    BottomBarItem(
-                                        selected = selected,
-                                        onClick = {
-                                            if (currentRoute != navigationItem.route) {
-                                                selectedItem = index
-                                                navController.popBackStack()
-                                                navController.navigate(navigationItem.route) {
-                                                    navController.graph.startDestinationRoute?.let { route ->
-                                                        popUpTo(route) {
-                                                            saveState = true
+                            val navBackStackEntryx by navController.currentBackStackEntryAsState()
+                            val currentRoutex = navBackStackEntryx?.destination?.route
+                            val selectedItemx = navigationItems.indexOf(getNavigationItemByRoute(currentRoutex.toString(), navigationItems))
+                            if (currentRoute == NavigationItem.Home.route) {
+                                AnimatedBottomBar(
+                                    modifier = Modifier.shadow(elevation = 5.dp),
+                                    bottomBarHeight = 70.dp,
+                                    selectedItem = selectedItemx,
+                                    itemSize = navigationItems.take(4).size,
+                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                    indicatorStyle = IndicatorStyle.LINE,
+                                    indicatorColor = PurpleBackground
+                                ) {
+                                    navigationItems.take(4).forEachIndexed { index, navigationItem ->
+                                        val selected = currentRoutex == navigationItem.route
+                                        BottomBarItem(
+                                            selected = selected,
+                                            onClick = {
+                                                if (currentRoute != navigationItem.route) {
+                                                    selectedItem = index
+//                                                navController.popBackStack()
+                                                    navController.navigate(navigationItem.route) {
+                                                        navController.graph.startDestinationRoute?.let { route ->
+                                                            popUpTo(route) {
+                                                                saveState = true
+                                                            }
                                                         }
+                                                        launchSingleTop = true
+                                                        restoreState = true
                                                     }
-                                                    launchSingleTop = true
-                                                    restoreState = true
                                                 }
-                                            }
-                                        },
-                                        iconColor = if (selected) PurpleBackground else Color.Gray,
-                                        textColor = if (selected) PurpleBackground else Color.Gray,
-                                        imageVector = navigationItem.icon,
-                                        label = navigationItem.title,
-                                        visibleItem = VisibleItem.BOTH
-                                    )
+                                            },
+                                            iconColor = if (selected) PurpleBackground else Color.Gray,
+                                            textColor = if (selected) PurpleBackground else Color.Gray,
+                                            imageVector = navigationItem.icon,
+                                            label = navigationItem.title,
+                                            visibleItem = VisibleItem.BOTH
+                                        )
+                                    }
                                 }
                             }
+
                         }
                     ) {
                         Surface(
@@ -160,6 +168,13 @@ class MainActivity : ComponentActivity() {
 
                                 composable(NavigationItem.Profile.route) {
                                     landingPageWithAppBar(
+                                        navController = navController,
+                                        context = LocalContext.current
+                                    )
+                                }
+
+                                composable(mainScreens.summaryScreen.route) {
+                                    EstimateScreen(
                                         navController = navController,
                                         context = LocalContext.current
                                     )

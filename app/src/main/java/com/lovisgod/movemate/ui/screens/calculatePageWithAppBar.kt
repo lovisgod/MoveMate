@@ -54,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import com.lovisgod.movemate.R
 import com.lovisgod.movemate.data.model.FreightOption
 import com.lovisgod.movemate.data.model.TrackingInfo
@@ -81,11 +82,11 @@ fun CalculatePageWithAppBar(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                                navController?.navigate(NavigationItem.Home.route) {
-                                    popUpTo(navController.graph.startDestinationId) {
-                                        inclusive = true
-                                    }
-                                }
+                                  navController?.popBackStack()
+//                            navController?.navigate(
+//                                NavigationItem.Home.route,
+//                                NavOptions.Builder()
+//                                    .setPopUpTo(NavigationItem.Home.route, false).build())
                         },
                         modifier = Modifier
                             .size(35.dp)
@@ -120,7 +121,7 @@ fun CalculatePageWithAppBar(
             )
         },
         content = {
-          ShippingCalculatorScreen(modifier = Modifier.padding(it))
+          ShippingCalculatorScreen(modifier = Modifier.padding(it), navController = navController)
         }
     )
 }
