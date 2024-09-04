@@ -44,6 +44,7 @@ import com.lovisgod.movemate.data.dataRepository.getNavigationItemByRoute
 import com.lovisgod.movemate.ui.NavigationItem
 import com.lovisgod.movemate.ui.routeDefinition.mainScreens
 import com.lovisgod.movemate.ui.screens.CalculatePageWithAppBar
+import com.lovisgod.movemate.ui.screens.FilteredPackagePageWithAppBar
 import com.lovisgod.movemate.ui.screens.ShipmentPageWithAppBar
 import com.lovisgod.movemate.ui.screens.landingPageWithAppBar
 import com.lovisgod.movemate.ui.theme.LightGrey
@@ -175,6 +176,13 @@ class MainActivity : ComponentActivity() {
 
                                 composable(mainScreens.summaryScreen.route) {
                                     EstimateScreen(
+                                        navController = navController,
+                                        context = LocalContext.current
+                                    )
+                                }
+
+                                composable(mainScreens.filteredPackageScreen.route) {
+                                    FilteredPackagePageWithAppBar(
                                         navController = navController,
                                         context = LocalContext.current
                                     )
