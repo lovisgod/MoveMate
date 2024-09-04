@@ -4,6 +4,7 @@ package com.lovisgod.movemate.ui.screens
 import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -62,6 +63,7 @@ import com.lovisgod.movemate.R
 import com.lovisgod.movemate.data.model.FreightOption
 import com.lovisgod.movemate.data.model.TrackingInfo
 import com.lovisgod.movemate.ui.icons.Scan
+import com.lovisgod.movemate.ui.routeDefinition.mainScreens
 import com.lovisgod.movemate.ui.theme.PurpleBackground
 import com.lovisgod.movemate.ui.theme.WhiteText
 import com.lovisgod.movemate.ui.widgets.FreightOptionsList
@@ -189,12 +191,15 @@ fun landingPage(
             color = Color.Transparent // Ensure the Surface background is transparent to show the purple color
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().clickable {
+                    navController?.navigate(mainScreens.filteredPackageScreen.route)
+                }
             ) {
                 GenericInputField(
                     header = "Sample header",
                     footer = "Tap dropdown to see lists of route",
                     inputWidth = 288.dp,
+                    enable = false,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email, capitalization = KeyboardCapitalization.Characters),
                     hint = "Enter your receipt number ...",
                     leftIcon = Icons.Default.Search,
@@ -203,8 +208,7 @@ fun landingPage(
                     onInputValueChange = {
                         text = it
                     },
-
-                    )
+                 )
 
             }
         }
