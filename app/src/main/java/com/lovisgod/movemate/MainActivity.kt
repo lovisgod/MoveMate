@@ -2,6 +2,7 @@
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.EaseIn
@@ -41,6 +42,7 @@ import com.example.bottombar.model.IndicatorStyle
 import com.example.bottombar.model.VisibleItem
 import com.lovisgod.movemate.ui.NavigationItem
 import com.lovisgod.movemate.ui.routeDefinition.mainScreens
+import com.lovisgod.movemate.ui.screens.CalculatePageWithAppBar
 import com.lovisgod.movemate.ui.screens.ShipmentPageWithAppBar
 import com.lovisgod.movemate.ui.screens.landingPageWithAppBar
 import com.lovisgod.movemate.ui.theme.LightGrey
@@ -144,7 +146,7 @@ class MainActivity : ComponentActivity() {
                                         )
                                     }
                                     ) {
-                                    ShipmentPageWithAppBar(
+                                    CalculatePageWithAppBar(
                                         navController = navController,
                                         context = LocalContext.current
                                     )
@@ -161,6 +163,20 @@ class MainActivity : ComponentActivity() {
                                         navController = navController,
                                         context = LocalContext.current
                                     )
+                                }
+                            }
+
+                            BackHandler {
+                                // If the current screen is not the home screen, navigate to the home screen
+                                if (currentRoute != NavigationItem.Home.route) {
+                                    navController.navigate(NavigationItem.Home.route) {
+                                        popUpTo(navController.graph.startDestinationId) {
+                                            inclusive = true
+                                        }
+                                    }
+                                } else {
+                                    // If it's the home screen, finish the activity
+                                    finish()
                                 }
                             }
                         }
