@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
                             val navBackStackEntryx by navController.currentBackStackEntryAsState()
                             val currentRoutex = navBackStackEntryx?.destination?.route
                             val selectedItemx = navigationItems.indexOf(getNavigationItemByRoute(currentRoutex.toString(), navigationItems))
-                            if (currentRoute == NavigationItem.Home.route) {
+                            if (currentRoute == NavigationItem.Home.route || currentRoute == NavigationItem.Shipment.route) {
                                 AnimatedBottomBar(
                                     modifier = Modifier.shadow(elevation = 5.dp),
                                     bottomBarHeight = 70.dp,
