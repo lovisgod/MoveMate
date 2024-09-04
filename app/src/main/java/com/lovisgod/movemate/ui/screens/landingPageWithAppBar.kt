@@ -36,6 +36,10 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,6 +50,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -69,7 +74,7 @@ import com.lovisgod.movemate.viewmodel.MoveMateViewModel
 @Composable
 fun landingPageWithAppBar(
     navController: NavController?,
-//    viewModel: MoveMateViewModel = hiltViewModel(),
+    viewModel: MoveMateViewModel = hiltViewModel(),
     context: Context?,
 ) {
     Scaffold(
@@ -125,7 +130,7 @@ fun landingPageWithAppBar(
                     IconButton(
                         onClick = { /* Handle notification click */ },
                         modifier = Modifier
-                            .size(30.dp)
+                            .size(40.dp)
                             .clip(CircleShape)
                             .background(Color.White)
                     ) {
@@ -143,7 +148,7 @@ fun landingPageWithAppBar(
             landingPage(
                 navController = navController,
                 context = context,
-//                viewModel = viewModel,
+                viewModel = viewModel,
                 modifier = Modifier
                     .padding(it)
                     .background(color = Color.White)
@@ -161,10 +166,12 @@ fun landingPage(
 ) {
 
     LaunchedEffect(key1 = "getFreightOptions") {
-//        viewModel?.getFreightOptions()
+        viewModel?.getFreightOptions()
     }
 
-//    val freightOption = viewModel?.freightOptionsState?.collectAsState()
+    val freightOption = viewModel?.freightOptionsState?.collectAsState()
+
+    var text by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier
@@ -188,11 +195,14 @@ fun landingPage(
                     header = "Sample header",
                     footer = "Tap dropdown to see lists of route",
                     inputWidth = 288.dp,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email, capitalization = KeyboardCapitalization.Characters),
                     hint = "Enter your receipt number ...",
                     leftIcon = Icons.Default.Search,
                     rightIcon = Scan,
-                    onInputValueChange = {},
+                    text = text,
+                    onInputValueChange = {
+                        text = it
+                    },
 
                     )
 
@@ -228,9 +238,10 @@ fun landingPage(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-//        FreightOptionsList(freightOptions = freightOption?.value ?: listOf(FreightOption()) )
-        FreightOptionsList(freightOptions = listOf(
-            FreightOption(), FreightOption(), FreightOption()) )
+        FreightOptionsList(freightOptions = freightOption?.value ?: listOf(FreightOption()) )
+
+//        FreightOptionsList(freightOptions = listOf(
+//            FreightOption(), FreightOption(), FreightOption()) )
 
     }
 

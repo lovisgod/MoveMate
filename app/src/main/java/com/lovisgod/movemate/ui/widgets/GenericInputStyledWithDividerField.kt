@@ -23,6 +23,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -49,15 +50,17 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lovisgod.movemate.ui.theme.DarkGrey
+import com.lovisgod.movemate.ui.theme.milkyWhiteColor
 import com.lovisgod.movemate.ui.theme.orangeColor
 
 
 @Composable
-fun GenericInputField(
+fun GenericInputWithStyledDividerField(
     header: String,
     footer: String? = "",
     hint: String,
     inputWidth: Dp,
+    hintColor: Color? = Color.Gray,
     keyboardOptions: KeyboardOptions,
     keyboardActions: KeyboardActions = KeyboardActions(),
     onInputValueChange:  (textInside: String) -> Unit,
@@ -70,7 +73,7 @@ fun GenericInputField(
     readOnly: Boolean = false,
     modifier: Modifier = Modifier
 ) {
-    var textState by remember { mutableStateOf(TextFieldValue(text)) }
+    var textState by remember { mutableStateOf(TextFieldValue(text.uppercase())) }
     var visualTransformation by remember { mutableStateOf(VisualTransformation.None) }
     return Column(
         modifier = modifier
@@ -99,12 +102,12 @@ fun GenericInputField(
                        .fillMaxWidth()
                        .background(
                            color = Color(0xFFF3F5F6),
-                           shape = RoundedCornerShape(size = 25.dp)
+                           shape = RoundedCornerShape(size = 10.dp)
                        )
                        .border(
                            width = 0.5.dp,
                            color = Color(0xFFF3F5F6),
-                           shape = RoundedCornerShape(size = 25.dp)
+                           shape = RoundedCornerShape(size = 10.dp)
                        )
                        .padding(end = 16.dp, top = 12.dp, bottom = 12.dp), // inner padding
                ) {
@@ -113,7 +116,7 @@ fun GenericInputField(
                        verticalAlignment = Alignment.CenterVertically,
                        modifier = Modifier
                            .padding(start = 10.dp)
-                               .align(Alignment.CenterStart)
+                           .align(Alignment.CenterStart)
                    ) {
                        if (leftIcon != null) {
                            IconButton(
@@ -124,12 +127,19 @@ fun GenericInputField(
                                    .size(24.dp)
                            ) {
                                Icon(
-                                   tint = DarkGrey,
+                                   tint = Color.Gray,
                                    imageVector = leftIcon,
                                    contentDescription = "left icon",
                                )
                            }
                        }
+                       Spacer(modifier = Modifier.width(8.dp))
+                       Box(
+                           modifier = Modifier
+                               .width(1.dp)
+                               .height(24.dp)
+                               .background(color = Color.Gray)
+                       )
                        Spacer(modifier = Modifier.width(8.dp))
 
 
@@ -138,7 +148,7 @@ fun GenericInputField(
                                text = hint,
                                fontSize = 12.sp,
                                fontWeight = FontWeight.Normal,
-                               color = Color.LightGray
+                               color = hintColor ?: Color.Gray
                            )
                        }
                    }
@@ -150,8 +160,6 @@ fun GenericInputField(
 
                            },
                            modifier = Modifier
-                               .background(orangeColor, CircleShape)
-                               .clip(CircleShape)
                                .align(Alignment.CenterEnd)
                                .size(30.dp)
                        ) {
@@ -162,7 +170,7 @@ fun GenericInputField(
                            )
                        }
                    }
-                   Box(modifier = Modifier.padding(start = 35.dp, end = 30.dp).align(Alignment.CenterStart)) {
+                   Box(modifier = Modifier.padding(start = 45.dp, end = 5.dp).align(Alignment.CenterStart)) {
                        innerTextField()
                    }
                }
@@ -175,8 +183,8 @@ fun GenericInputField(
 
 @Preview(showBackground = true)
 @Composable
-fun GenericInputFieldPreview() {
-    GenericInputField(
+fun GenericInputWithStyledDividerFieldPreview() {
+    GenericInputWithStyledDividerField(
       header = "Sample header",
       footer = "Tap dropdown to see lists of route",
       inputWidth = 288.dp,
@@ -188,10 +196,3 @@ fun GenericInputFieldPreview() {
 
     )
 }
-
-data class formDetails(
-    var header: String,
-    var hint: String,
-    var inputWidth: Dp,
-    var keyboardOptions: KeyboardOptions,
-)

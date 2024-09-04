@@ -54,9 +54,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import com.lovisgod.movemate.R
 import com.lovisgod.movemate.data.model.FreightOption
 import com.lovisgod.movemate.data.model.TrackingInfo
+import com.lovisgod.movemate.ui.NavigationItem
 import com.lovisgod.movemate.ui.icons.Scan
 import com.lovisgod.movemate.ui.theme.PurpleBackground
 import com.lovisgod.movemate.ui.theme.WhiteText
@@ -64,12 +66,13 @@ import com.lovisgod.movemate.ui.widgets.FreightOptionsList
 import com.lovisgod.movemate.ui.widgets.GenericInputField
 import com.lovisgod.movemate.ui.widgets.LastOrderWidget
 import com.lovisgod.movemate.ui.widgets.ShipmentsScreenWithTabs
+import com.lovisgod.movemate.ui.widgets.ShippingCalculatorScreen
 import com.lovisgod.movemate.viewmodel.MoveMateViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShipmentPageWithAppBar(
+fun CalculatePageWithAppBar(
     navController: NavController?,
     context: Context?,
 ) {
@@ -79,7 +82,11 @@ fun ShipmentPageWithAppBar(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            navController?.popBackStack()
+                                  navController?.popBackStack()
+//                            navController?.navigate(
+//                                NavigationItem.Home.route,
+//                                NavOptions.Builder()
+//                                    .setPopUpTo(NavigationItem.Home.route, false).build())
                         },
                         modifier = Modifier
                             .size(35.dp)
@@ -105,7 +112,7 @@ fun ShipmentPageWithAppBar(
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
-                        Text(text = "Shipments", fontSize = 16.sp)
+                        Text(text = "Calculate", fontSize = 16.sp)
                     }
                 },
                 actions = {
@@ -114,7 +121,7 @@ fun ShipmentPageWithAppBar(
             )
         },
         content = {
-            ShipmentsScreenWithTabs(modifier = Modifier.padding(it))
+          ShippingCalculatorScreen(modifier = Modifier.padding(it), navController = navController)
         }
     )
 }
@@ -124,8 +131,8 @@ fun ShipmentPageWithAppBar(
 
 @Preview
 @Composable
-fun ShipmentsPagePreview() {
-    ShipmentPageWithAppBar(
+fun CalculatePagePreview() {
+    CalculatePageWithAppBar(
         context = null,
         navController = null
     )

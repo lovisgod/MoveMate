@@ -21,3 +21,4 @@ val DarkGrey = Color(0xFF121212)         // Background or surface color in dark 
 val orangeColor = Color(0xFFFFA500)
 val veryLightOrangeColor = Color(0xFFFFDEAD)
 val veryLightBlueColor = Color(0xFFADD8E6)
+val milkyWhiteColor = Color(0xFFFFF1DE)

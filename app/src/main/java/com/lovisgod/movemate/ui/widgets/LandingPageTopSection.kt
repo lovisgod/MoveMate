@@ -69,19 +69,27 @@ fun TopSection() {
             }
 
             // Notification Icon
-            Box(
-                contentAlignment = Alignment.Center,
+//            Box(
+//                contentAlignment = Alignment.Center,
+//                modifier = Modifier
+//                    .size(36.dp) // Set the size of the circle
+//                    .background(color = Color.White, shape = CircleShape) // White circular background
+//            ) {
+//                Icon(
+//                    painter = painterResource(id = R.drawable.notification),
+//                    contentDescription = "Notification Icon",
+//                    modifier = Modifier.size(20.dp) // Adjust the icon size
+//                )
+//            }
+            Image(
+                painter = painterResource(id = R.drawable.notification),
+                contentDescription = "notification Icon",
                 modifier = Modifier
-                    .size(36.dp) // Set the size of the circle
-                    .background(color = Color.White, shape = CircleShape) // White circular background
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.notification),
-                    contentDescription = "Notification Icon",
-                    tint = PurpleBackground, // Set the icon color to match your theme or desired color
-                    modifier = Modifier.size(20.dp) // Adjust the icon size
-                )
-            }
+                    .size(40.dp)
+                    .background(color = Color.White, shape = CircleShape)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
+            )
         }
 
         Spacer(modifier = Modifier.height(12.dp))
