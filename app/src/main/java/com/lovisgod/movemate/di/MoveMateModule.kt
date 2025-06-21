@@ -13,8 +13,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object MoveMateModule {
 
-
-
     @Provides
     @Singleton
     fun provideAppDataSource() : DataSource {
